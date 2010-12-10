@@ -6,6 +6,32 @@ gem 'rails', '3.0.0'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'mysql'
+gem 'devise'
+gem "declarative_authorization"
+
+group :development do
+  gem 'interactive_editor'
+  gem 'hirb'
+  gem 'map_by_method'
+  gem 'wirble'
+end
+
+group :test, :development do
+  gem 'webrat'
+  gem 'rspec', '2.2'
+  gem 'rspec-rails', '2.2'
+  gem 'autotest-rails'
+  gem 'autotest'
+  gem 'rcov'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'mocha'
+  gem 'shoulda'
+end
+
+gem 'capistrano'
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
