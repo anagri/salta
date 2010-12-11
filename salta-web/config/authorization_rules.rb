@@ -1,9 +1,19 @@
 authorization do
+  role :guest do
+    has_permission_on :users, :to => [:new, :create]
+    has_permission_on :user_sessions, :to => [:new, :create]
+  end
+
   role :authenticated_user do
+    has_permission_on :user_sessions, :to => [:destroy]
     has_permission_on :dashboard, :to => [:index]
   end
 
   role :admin do
-    include :authenticated_user
+    includes :authenticated_user
+  end
+
+  role :contact do
+    includes :authenticated_user
   end
 end

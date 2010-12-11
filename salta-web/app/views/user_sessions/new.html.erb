@@ -1,0 +1,14 @@
+<%= form_for :user_session, @user_session, :url => user_session_path do |f| %>
+    <%= f.error_messages %>
+    <div>
+      <span><%= f.label :email %></span>
+      <span><%= f.text_field :email %></span>
+    </div>
+    <div>
+      <span><%= f.label :password %></span>
+      <span><%= f.password_field :password %></span>
+    </div>
+    <div>
+      <span><%= f.submit 'Login' %></span>
+    </div>
+<% end %>

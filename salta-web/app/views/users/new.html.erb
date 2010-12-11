@@ -1,0 +1,18 @@
+<%= form_for :user, @user,:url => user_path do |f| %>
+    <%= f.error_messages %>
+    <div>
+      <span><%= f.label :email %></span>
+      <span><%= f.text_field :email %></span>
+    </div>
+    <div>
+      <span><%= f.label :password %></span>
+      <span><%= f.password_field :password %></span>
+    </div>
+    <div>
+      <span><%= f.label :password_confirmation %></span>
+      <span><%= f.password_field :password_confirmation %></span>
+    </div>
+    <div>
+      <span><%= f.submit 'Register' %></span>
+    </div>
+<% end %>
