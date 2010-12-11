@@ -11,6 +11,7 @@ authorization do
 
   role :admin do
     includes :authenticated_user
+    has_permission_on :groups, :to => [:index, :new, :create]
   end
 
   role :contact do

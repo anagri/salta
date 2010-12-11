@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Total Members</td>
+  </tr>
+  <% @groups.each do |group| %>
+      <tr>
+        <td><%= group.id %></td>
+        <td><%= group.name %></td>
+        <td><%= group.contacts.size %></td>
+      </tr>
+  <% end %>
+</table>
+<%= link_to 'New Group', new_group_path %>

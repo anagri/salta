@@ -7,6 +7,9 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
+<% if current_user %>
+    You are logged in as <%= current_user.email %> (<%= link_to 'Log Out', logout_path %>)
+<% end %>
 <% if flash[:alert] %>
     <h3><%= flash[:alert] %></h3>
 <% end %>

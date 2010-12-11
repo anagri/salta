@@ -1,0 +1,10 @@
+<%= form_for @group do |f| %>
+    <%= f.error_messages %>
+    <div>
+      <span><%= f.label :name %></span>
+      <span><%= f.text_field :name %></span>
+    </div>
+    <div>
+      <span><%= f.submit %></span>
+    </div>
+<% end %>

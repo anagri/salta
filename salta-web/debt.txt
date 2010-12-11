@@ -1,0 +1,2 @@
+* convert groups#index groups query to use counter_cache for contacts
+* convert groups#index groups query to use pagination
