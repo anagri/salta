@@ -20,7 +20,12 @@ class ApplicationController < ActionController::Base
   end
 
   def permission_denied
-    flash[:alert] = 'Please login to access the requested area'
-    redirect_to new_user_session_path
+    if current_user.nil?
+      flash[:alert] = 'Please login to access the requested area'
+      redirect_to new_user_session_path
+    else
+      flash[:alert] = 'You do not have permission to access requested area'
+      redirect_to groups_path
+    end
   end
 end

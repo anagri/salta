@@ -6,7 +6,6 @@ authorization do
 
   role :authenticated_user do
     has_permission_on :user_sessions, :to => [:destroy]
-    has_permission_on :dashboard, :to => [:index]
   end
 
   role :admin do
@@ -16,5 +15,6 @@ authorization do
 
   role :contact do
     includes :authenticated_user
+    has_permission_on :groups, :to => [:index]
   end
 end

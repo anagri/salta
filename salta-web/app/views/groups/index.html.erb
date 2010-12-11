@@ -12,4 +12,4 @@
       </tr>
   <% end %>
 </table>
-<%= link_to 'New Group', new_group_path %>
+<%= link_to 'New Group', new_group_path if permitted_to?(:new, :groups)%>

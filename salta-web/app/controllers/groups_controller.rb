@@ -3,6 +3,7 @@ class GroupsController < ApplicationController
 
   def index
     @groups = Group.all(:include => :contacts)
+
   end
 
   def new
