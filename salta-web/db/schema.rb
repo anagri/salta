@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101211173956) do
+ActiveRecord::Schema.define(:version => 20101212043716) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -36,12 +36,12 @@ ActiveRecord::Schema.define(:version => 20101211173956) do
   add_index "user_sessions", ["updated_at"], :name => "index_user_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                            :null => false
-    t.string   "role",                             :null => false
-    t.string   "crypted_password",                 :null => false
-    t.string   "password_salt",                    :null => false
-    t.string   "persistence_token",                :null => false
-    t.integer  "login_count",       :default => 0, :null => false
+    t.string   "email",                                          :null => false
+    t.string   "role",                                           :null => false
+    t.string   "crypted_password",                               :null => false
+    t.string   "password_salt",                                  :null => false
+    t.string   "persistence_token",                              :null => false
+    t.integer  "login_count",                     :default => 0, :null => false
     t.datetime "last_request_at"
     t.datetime "last_login_at"
     t.datetime "current_login_at"
@@ -49,6 +49,9 @@ ActiveRecord::Schema.define(:version => 20101211173956) do
     t.string   "current_login_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "first_name",        :limit => 30,                :null => false
+    t.string   "last_name",         :limit => 30,                :null => false
+    t.string   "phone",             :limit => 20,                :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

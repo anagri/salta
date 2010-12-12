@@ -10,11 +10,15 @@ authorization do
 
   role :admin do
     includes :authenticated_user
-    has_permission_on :groups, :to => [:index, :new, :create]
+    has_permission_on :groups, :to => [:index, :new, :create, :show, :add_membership, :remove_membership, :contacts]
   end
 
   role :contact do
     includes :authenticated_user
-    has_permission_on :groups, :to => [:index]
+    has_permission_on :groups, :to => [:index, :show]
+    has_permission_on :groups do
+      to :contacts
+      if_attribute :contacts => contains {user}
+    end
   end
 end

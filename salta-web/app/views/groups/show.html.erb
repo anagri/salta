@@ -1,0 +1,21 @@
+<h3>Group</h3>
+
+<h4><%= @group.name %></h4>
+This group has <%= @group.contacts.size %> members.
+<% permitted_to? :contacts, :groups do %>
+    <%= form_for :memberships, :url => group_remove_membership_path(@group) do |f| %>
+        <%= f.error_messages %>
+        <%= render :partial => 'contacts',
+                   :locals  => {:contacts   => @contacts,
+                                :permitted => permitted_to?(:remove_membership, :groups)} %>
+        <%= f.submit 'Delete Contacts' if permitted_to?(:remove_membership, :groups) %>
+    <% end %>
+<% end %>
+<% permitted_to? :add_membership, :groups do %>
+    <%= form_for :memberships, :url => group_add_membership_path(@group) do |f| %>
+        <%= f.error_messages %>
+        <%= render :partial => 'contacts',
+                   :locals  => {:contacts   => @non_members, :permitted => true} %>
+        <%= f.submit 'Add Contacts' %>
+    <% end %>
+<% end %>

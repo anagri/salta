@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <td>&nbsp;</td>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>Phone Number</td>
+    <td>Email</td>
+  </tr>
+  <%= render :partial => 'contact', :collection => contacts, :locals => {:permitted => permitted} %>
+</table>

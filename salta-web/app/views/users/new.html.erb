@@ -1,6 +1,14 @@
 <%= form_for @user do |f| %>
     <%= f.error_messages %>
     <div>
+      <span><%= f.label :first_name %></span>
+      <span><%= f.text_field :first_name %></span>
+    </div>
+    <div>
+      <span><%= f.label :last_name %></span>
+      <span><%= f.text_field :last_name %></span>
+    </div>
+    <div>
       <span><%= f.label :email %></span>
       <span><%= f.text_field :email %></span>
     </div>
@@ -13,6 +21,11 @@
       <span><%= f.password_field :password_confirmation %></span>
     </div>
     <div>
+      <span><%= f.label :phone %></span>
+      <span><%= f.text_field :phone %></span>
+    </div>
+    <div>
       <span><%= f.submit 'Register' %></span>
     </div>
 <% end %>
+<%= link_to 'Log In', new_user_session_path %>
