@@ -21,11 +21,17 @@ class ApplicationController < ActionController::Base
 
   def permission_denied
     if current_user.nil?
+      session[:from] = request.request_uri
       flash[:alert] = 'Please login to access the requested area'
       redirect_to new_user_session_path
     else
       flash[:alert] = 'You do not have permission to access requested area'
       redirect_to groups_path
     end
+  end
+
+  def redirect_from_session_or_to(path)
+    redirect_to session[:from] || path
+    session[:from] = nil
   end
 end

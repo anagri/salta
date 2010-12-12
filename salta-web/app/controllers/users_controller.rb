@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user.role = Role::CONTACT
     if @user.save
       flash[:notice] = 'Registration successful'
-      redirect_to groups_path
+      redirect_from_session_or_to groups_path
     else
       flash[:alert] = 'Registration failed'
       render 'new'

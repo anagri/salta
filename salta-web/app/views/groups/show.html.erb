@@ -3,19 +3,31 @@
 <h4><%= @group.name %></h4>
 This group has <%= @group.contacts.size %> members.
 <% permitted_to? :contacts, :groups do %>
-    <%= form_for :memberships, :url => group_remove_membership_path(@group) do |f| %>
+    <%= form_for :remove_memberships, :url => group_remove_membership_path(@group) do |f| %>
         <%= f.error_messages %>
         <%= render :partial => 'contacts',
-                   :locals  => {:contacts   => @contacts,
+                   :locals  => {:contacts  => @contacts,
                                 :permitted => permitted_to?(:remove_membership, :groups)} %>
         <%= f.submit 'Delete Contacts' if permitted_to?(:remove_membership, :groups) %>
     <% end %>
 <% end %>
 <% permitted_to? :add_membership, :groups do %>
-    <%= form_for :memberships, :url => group_add_membership_path(@group) do |f| %>
+    <%= form_for :add_memberships, :url => group_add_membership_path(@group) do |f| %>
         <%= f.error_messages %>
         <%= render :partial => 'contacts',
-                   :locals  => {:contacts   => @non_members, :permitted => true} %>
+                   :locals  => {:contacts => @non_members, :permitted => true} %>
         <%= f.submit 'Add Contacts' %>
+    <% end %>
+<% end %>
+<% permitted_to? :invite, :groups do %>
+    <%= form_for @invite, :url => group_invite_path(@group) do |f| %>
+        <%= f.error_messages %>
+        <div>
+          <span><%= f.label :email %></span>
+          <span><%= f.text_field :email %></span>
+        </div>
+        <div>
+          <span><%= f.submit 'Send Invite' %></span>
+        </div>
     <% end %>
 <% end %>
