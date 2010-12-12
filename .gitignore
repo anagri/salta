@@ -4,3 +4,8 @@ log/*.log
 tmp/**/*
 .idea
 out
+bin
+.settings
+.project
+.classpath
+gen
