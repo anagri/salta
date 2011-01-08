@@ -24,6 +24,7 @@ import org.json.JSONException;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.salta.core.Contact;
 import com.salta.core.Group;
 
 public class SaltaClient {
@@ -52,7 +53,8 @@ public class SaltaClient {
 				"http://10.12.6.36:3000/user_sessions?user_session[email]="
 						+ email + "&user_session[password]=" + password);
 		try {
-			HttpResponse response = httpClient.execute(httpRequest);
+			HttpResponse response = httpClient.execute(httpRequest,
+					localContext);
 			Log.d("ReviewsSyncService",
 					"response " + parseResponse(response.getEntity()));
 		} catch (ClientProtocolException e1) {
@@ -63,27 +65,45 @@ public class SaltaClient {
 	}
 
 	public List<Group> groups() {
-		HttpGet request = new HttpGet("http://10.12.6.36:3000/home");
-		try {
-			HttpResponse response = httpClient.execute(request, localContext);
-			HttpEntity responseEntity = response.getEntity();
-			StringBuilder finalJsonString = parseResponse(responseEntity);
-			JSONArray jsonArray = new JSONArray(finalJsonString.toString());
-			List<Group> groups = new ArrayList<Group>();
-			for (int i = 0; i < jsonArray.length(); i++) {
-				String groupJsonString = jsonArray.getJSONObject(i)
-						.getJSONObject("group").toString();
-				groups.add(new Gson().fromJson(groupJsonString, Group.class));
+		return new ResourceRepository<Group>().getResources("group",
+				"http://10.12.6.36:3000/android/groups", Group.class);
+	}
+
+	public List<Contact> contacts(int groupId) {
+		List<Contact> contacts = new ResourceRepository<Contact>().getResources("contact",
+				"http://10.12.6.36:3000/android/groups/" + groupId + "/contacts",
+				Contact.class);
+		System.out.println(contacts);
+		return contacts;
+	}
+
+	private class ResourceRepository<T> {
+		public List<T> getResources(String resourceName, String url,
+				Class resourceClass) {
+			try {
+				HttpGet request = new HttpGet(url);
+				HttpResponse response = httpClient.execute(request,
+						localContext);
+				HttpEntity responseEntity = response.getEntity();
+				StringBuilder finalJsonString = parseResponse(responseEntity);
+				JSONArray jsonArray = new JSONArray(finalJsonString.toString());
+				List<T> resources = new ArrayList<T>();
+				for (int i = 0; i < jsonArray.length(); i++) {
+					String groupJsonString = jsonArray.getJSONObject(i)
+							.toString();
+					resources.add((T) new Gson().fromJson(groupJsonString,
+							resourceClass));
+				}
+				return resources;
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			return groups;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 
 	private StringBuilder parseResponse(HttpEntity responseEntity)
@@ -97,5 +117,4 @@ public class SaltaClient {
 		}
 		return finalJsonString;
 	}
-
 }

@@ -9,6 +9,8 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="SaltaPreferenceActivity" android:label="@string/preference" />
+		<activity android:name="GroupListActivity" android:label="Subscribed Groups" />
+		<activity android:name="ContactListActivity" android:label="Subscribed Members" />
 	</application>
 	<uses-permission android:name="android.permission.INTERNET"/>
 </manifest> 
