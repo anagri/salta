@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101212074517) do
+ActiveRecord::Schema.define(:version => 20110108204640) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -32,8 +32,25 @@ ActiveRecord::Schema.define(:version => 20101212074517) do
   add_index "invites", ["token"], :name => "index_invites_on_token"
 
   create_table "memberships", :id => false, :force => true do |t|
-    t.integer  "contact_id"
+    t.integer  "member_id"
     t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "first_name", :null => false
+    t.string   "last_name",  :null => false
+    t.string   "email"
+    t.boolean  "primary"
+    t.string   "phone"
+    t.string   "website"
+    t.string   "facebook"
+    t.string   "yahoo"
+    t.string   "google"
+    t.string   "twitter"
+    t.string   "photo"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,12 +66,11 @@ ActiveRecord::Schema.define(:version => 20101212074517) do
   add_index "user_sessions", ["updated_at"], :name => "index_user_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                          :null => false
-    t.string   "role",                                           :null => false
-    t.string   "crypted_password",                               :null => false
-    t.string   "password_salt",                                  :null => false
-    t.string   "persistence_token",                              :null => false
-    t.integer  "login_count",                     :default => 0, :null => false
+    t.string   "role",                             :null => false
+    t.string   "crypted_password",                 :null => false
+    t.string   "password_salt",                    :null => false
+    t.string   "persistence_token",                :null => false
+    t.integer  "login_count",       :default => 0, :null => false
     t.datetime "last_request_at"
     t.datetime "last_login_at"
     t.datetime "current_login_at"
@@ -62,12 +78,9 @@ ActiveRecord::Schema.define(:version => 20101212074517) do
     t.string   "current_login_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "first_name",        :limit => 30,                :null => false
-    t.string   "last_name",         :limit => 30,                :null => false
-    t.string   "phone",             :limit => 20,                :null => false
+    t.string   "username",                         :null => false
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
 

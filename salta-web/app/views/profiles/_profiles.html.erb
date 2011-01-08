@@ -1,0 +1,19 @@
+<h2>Profiles for <%= user.username %></h2>
+<table>
+  <tr>
+    <td>ID</td>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>Email</td>
+    <td>Phone</td>
+  </tr>
+  <% profiles.each do |profile| %>
+      <tr>
+        <td><%= link_to profile.id, user_profile_path(user, profile) %></td>
+        <td><%= profile.first_name %></td>
+        <td><%= profile.last_name %></td>
+        <td><%= profile.email %></td>
+        <td><%= profile.phone %></td>
+      </tr>
+  <% end %>
+</table>

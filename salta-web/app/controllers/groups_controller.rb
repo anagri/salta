@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   filter_access_to :all
 
   def index
-    @groups = Group.all(:include => :contacts)
+    @groups = Group.all(:include => :members)
   end
 
   def new
@@ -15,29 +15,29 @@ class GroupsController < ApplicationController
       flash[:notice] = 'Group created successfully'
       redirect_to groups_path
     else
-      flash[:alert] = 'Group creating failed'
+      flash[:alert] = 'Group creation failed'
       render 'new'
     end
   end
 
   def show
-    @group = Group.find(params[:id], :include => :contacts)
+    @group = Group.find(params[:id], :include => :members)
     prepare_for_show
   end
 
   def add_membership
-    @group    = Group.find(params[:group_id])
-    @contacts = User.contact.find(params[:contact_ids])
-    @contacts.each { |contact| contact.groups << @group unless contact.groups.include?(@group) }
-    flash[:notice] = 'Contacts added to group successfully'
+    @group   = Group.find(params[:group_id])
+    @members = Profile.find(params[:member_ids])
+    @members.each { |member| member.groups << @group unless member.groups.include?(@group) }
+    flash[:notice] = 'Members added to group successfully'
     redirect_to @group
   end
 
   def remove_membership
-    @group    = Group.find(params[:group_id])
-    @contacts = User.contact.find(params[:contact_ids])
-    @contacts.each { |contact| contact.groups.delete(@group) }
-    flash[:notice] = 'Contacts removed from group successfully'
+    @group   = Group.find(params[:group_id])
+    @members = Profile.find(params[:member_ids])
+    @members.each { |member| member.groups.delete(@group) }
+    flash[:notice] = 'Members removed from group successfully'
     redirect_to @group
   end
 
@@ -60,8 +60,8 @@ class GroupsController < ApplicationController
 
   protected
   def prepare_for_show
-    @contacts    = @group.contacts
-    @non_members = User.contact.all - @group.contacts
+    @members     = @group.members
+    @non_members = (User.contact.all - @group.members.collect { |member| member.user }).collect { |user| user.profiles }.flatten
     @invite      ||= Invite.new
   end
 end

@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <td>ID</td>
+    <td>Name</td>
+    <td>Total Members</td>
+  </tr>
+  <% groups.each do |group| %>
+      <tr>
+        <td><%= group.id %></td>
+        <td><%= link_to group.name, group_path(group) %></td>
+        <td><%= group.members.size %></td>
+      </tr>
+  <% end %>
+</table>

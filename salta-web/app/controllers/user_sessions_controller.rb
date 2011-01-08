@@ -7,7 +7,6 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    puts ">>>>#{params.inspect}"
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       respond_with(@user_session) do |format|

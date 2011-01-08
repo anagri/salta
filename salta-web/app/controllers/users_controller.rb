@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  filter_resource_access
+  filter_access_to :all
 
   def new
     @user = User.new
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user.role = Role::CONTACT
     if @user.save
       flash[:notice] = 'Registration successful'
-      redirect_from_session_or_to groups_path
+      redirect_from_session_or_to root_path
     else
       flash[:alert] = 'Registration failed'
       render 'new'

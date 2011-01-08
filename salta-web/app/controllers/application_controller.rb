@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       redirect_to new_user_session_path
     else
       flash[:alert] = 'You do not have permission to access requested area'
-      redirect_to groups_path
+      redirect_to root_path
     end
   end
 
