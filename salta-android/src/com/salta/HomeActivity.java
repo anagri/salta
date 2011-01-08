@@ -7,9 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.salta.core.LoginException;
 import com.salta.web.SaltaClient;
 
 public class HomeActivity extends Activity {
@@ -30,16 +31,17 @@ public class HomeActivity extends Activity {
 				.toString();
 		String password = ((TextView) findViewById(R.id.passwordInput))
 				.getText().toString();
-		boolean remember = ((CheckBox) findViewById(R.id.rememberMeCheckBox))
-				.isChecked();
 		getPreferences(MODE_PRIVATE).edit()
 				.putString(SaltaPreference.USER_EMAIL, email)
-				.putString(SaltaPreference.PASSWORD, password)
-				.putBoolean(SaltaPreference.REMEMBER, remember)
-				.commit();
+				.putString(SaltaPreference.PASSWORD, password).commit();
 		SaltaClient client = SaltaClient.client();
-		client.login(email, password);
-		startActivity(new Intent(this, GroupListActivity.class));
+		try {
+			client.login(email, password);
+			startActivity(new Intent(this, GroupListActivity.class));
+		} catch (LoginException e) {
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+
 	}
 
 	@Override

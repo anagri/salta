@@ -26,8 +26,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.salta.core.Contact;
 import com.salta.core.Group;
+import com.salta.core.LoginException;
 
 public class SaltaClient {
+	private static final String SERVER_URL = "http://10.12.6.36:3000/";
 	private static SaltaClient instance = new SaltaClient();
 	private DefaultHttpClient httpClient;
 	private HttpContext localContext;
@@ -49,14 +51,17 @@ public class SaltaClient {
 	}
 
 	public void login(String email, String password) {
-		HttpPost httpRequest = new HttpPost(
-				"http://10.12.6.36:3000/user_sessions?user_session[email]="
-						+ email + "&user_session[password]=" + password);
+		HttpPost httpRequest = new HttpPost(SERVER_URL
+				+ "user_sessions.json?user_session[email]=" + email
+				+ "&user_session[password]=" + password);
 		try {
 			HttpResponse response = httpClient.execute(httpRequest,
 					localContext);
-			Log.d("ReviewsSyncService",
-					"response " + parseResponse(response.getEntity()));
+			String json = parseResponse(response.getEntity());
+			Log.d("SaltaClient", json);
+			if(response.getStatusLine().getStatusCode() == 422) {
+				throw new Gson().fromJson(json, LoginException.class);
+			}
 		} catch (ClientProtocolException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -65,15 +70,15 @@ public class SaltaClient {
 	}
 
 	public List<Group> groups() {
-		return new ResourceRepository<Group>().getResources("group",
-				"http://10.12.6.36:3000/android/groups", Group.class);
+		List<Group> groups = new ResourceRepository<Group>().getResources("group", SERVER_URL
+				+ "android/groups", Group.class);
+		return groups;
 	}
 
 	public List<Contact> contacts(int groupId) {
-		List<Contact> contacts = new ResourceRepository<Contact>().getResources("contact",
-				"http://10.12.6.36:3000/android/groups/" + groupId + "/contacts",
-				Contact.class);
-		System.out.println(contacts);
+		List<Contact> contacts = new ResourceRepository<Contact>()
+				.getResources("contact", SERVER_URL + "android/groups/"
+						+ groupId + "/contacts", Contact.class);
 		return contacts;
 	}
 
@@ -85,8 +90,8 @@ public class SaltaClient {
 				HttpResponse response = httpClient.execute(request,
 						localContext);
 				HttpEntity responseEntity = response.getEntity();
-				StringBuilder finalJsonString = parseResponse(responseEntity);
-				JSONArray jsonArray = new JSONArray(finalJsonString.toString());
+				String finalJsonString = parseResponse(responseEntity);
+				JSONArray jsonArray = new JSONArray(finalJsonString);
 				List<T> resources = new ArrayList<T>();
 				for (int i = 0; i < jsonArray.length(); i++) {
 					String groupJsonString = jsonArray.getJSONObject(i)
@@ -106,15 +111,15 @@ public class SaltaClient {
 		}
 	}
 
-	private StringBuilder parseResponse(HttpEntity responseEntity)
+	private String parseResponse(HttpEntity responseEntity)
 			throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(responseEntity.getContent()));
-		StringBuilder finalJsonString = new StringBuilder();
-		String eachLine;
-		while ((eachLine = bufferedReader.readLine()) != null) {
-			finalJsonString.append(eachLine);
+		StringBuilder json = new StringBuilder();
+		String read;
+		while ((read = bufferedReader.readLine()) != null) {
+			json.append(read);
 		}
-		return finalJsonString;
+		return json.toString();
 	}
 }
