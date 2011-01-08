@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditTextPreference android:key="@+id/url"
+		android:title="Server Url" android:summary="Set the remote server address" />
+	<PreferenceScreen android:title="Credentials"
+		android:summary="Set the credentials for application">
+		<EditTextPreference android:key="@+id/email"
+			android:summary="Set the email" android:title="Email" />
+		<EditTextPreference android:key="@+id/password"
+			android:inputType="textPassword" android:title="Password"
+			android:summary="Set the password" />
+	</PreferenceScreen>
+</PreferenceScreen>

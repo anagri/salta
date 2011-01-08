@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Hello World, HomeActivity"
-    />
-</LinearLayout>
-
+<RelativeLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/homeScreen">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+		android:id="@+id/bannerText" android:text="Login to Salta"
+		android:layout_marginTop="20dip"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@+id/bannerText"
+		android:layout_marginLeft="30dip" android:text="Email" android:id="@+id/emailLabel"
+		android:layout_marginTop="10dip"></TextView>
+	<EditText android:layout_height="wrap_content" android:id="@+id/emailInput"
+		android:layout_below="@+id/emailLabel" android:layout_width="fill_parent"
+		android:layout_marginLeft="30dip" android:layout_marginRight="30dip"
+		android:layout_marginTop="10dip"></EditText>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/passwordLabel"
+		android:layout_below="@+id/emailInput" android:text="Password"
+		android:layout_marginLeft="30dip" android:layout_marginTop="10dip"></TextView>
+	<EditText android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true" android:id="@+id/passwordInput"
+		android:password="true" android:layout_below="@+id/passwordLabel"
+		android:layout_marginLeft="30dip" android:layout_marginRight="30dip"
+		android:layout_width="fill_parent" android:layout_marginTop="10dip"></EditText>
+	<CheckBox android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/rememberMeCheckBox"
+		android:text="Remember Me" android:layout_below="@+id/passwordInput"
+		android:layout_marginLeft="30dip" android:layout_marginRight="30dip"
+		android:layout_marginTop="10dip"></CheckBox>
+	<Button android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true" android:id="@+id/loginButton"
+		android:text="Login" android:layout_width="150dip"
+		android:layout_marginLeft="30dip" android:layout_below="@+id/rememberMeCheckBox"
+		android:layout_marginTop="10dip" android:onClick="login"></Button>
+</RelativeLayout>

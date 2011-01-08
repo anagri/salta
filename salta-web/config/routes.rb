@@ -6,6 +6,7 @@ SaltaWeb::Application.routes.draw do
     post 'add_membership'
     post 'invite'
   end
+  match '/home' => 'home#index'
   match 'logout' => 'user_sessions#destroy', :as => :logout
   match 'login' => 'user_sessions#new', :as => :login
   match 'invite/:token' => 'invites#show', :as => :invite
