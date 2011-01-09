@@ -1,5 +1,6 @@
 SaltaWeb::Application.routes.draw do
   resources :user_sessions, :only => [:new, :create, :destroy]
+  match '/user_sessions/status' => 'user_sessions#session_status', :as => :user_session_status
   resources :users, :only => [:new, :create] do
     resources :profiles
   end

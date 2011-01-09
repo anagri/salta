@@ -29,4 +29,8 @@ class UserSessionsController < ApplicationController
     UserSession.find.destroy
     redirect_to new_user_session_path
   end
+
+  def session_status
+    render :json => {:logged_in => !UserSession.find.blank?}.to_json
+  end
 end

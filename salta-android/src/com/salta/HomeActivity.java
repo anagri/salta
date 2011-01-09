@@ -11,17 +11,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.salta.core.LoginException;
+import com.salta.service.ServiceReference;
 
 public class HomeActivity extends SaltaBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+//		if (ServiceReference.service().isLoggedIn()) {
+//			startActivity(new Intent(this, GroupListActivity.class));
+//			finish();
+//		}
 	}
 
 	public void login(View view) {
-		String username = ((TextView) findViewById(R.id.usernameInput)).getText()
-				.toString();
+		String username = ((TextView) findViewById(R.id.usernameInput))
+				.getText().toString();
 		String password = ((TextView) findViewById(R.id.passwordInput))
 				.getText().toString();
 		try {

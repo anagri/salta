@@ -1,11 +1,11 @@
 authorization do
   role :guest do
     has_permission_on :users, :to => [:new, :create]
-    has_permission_on :user_sessions, :to => [:new, :create]
+    has_permission_on :user_sessions, :to => [:new, :create, :session_status]
   end
 
   role :authenticated_user do
-    has_permission_on :user_sessions, :to => [:destroy]
+    has_permission_on :user_sessions, :to => [:destroy, :session_status]
     has_permission_on :dashboard, :to => [:index]
     has_permission_on :android, :to => [:members, :groups, :member]
     has_permission_on :profiles do

@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.salta.SaltaPreference;
 import com.salta.core.Contact;
 import com.salta.core.Group;
@@ -102,13 +103,33 @@ public class SaltaService extends Service {
 
 	public List<Contact> contacts(int groupId) {
 		List<Contact> contacts = new ResourceRepository<Contact>()
-				.getResources(serverUrl() + "android/groups/"
-						+ groupId + "/members", Contact.class);
+				.getResources(serverUrl() + "android/groups/" + groupId
+						+ "/members", Contact.class);
 		return contacts;
 	}
 
 	public Contact contact(int contactId) {
-		return new ResourceRepository<Contact>().getResource(serverUrl()+"android/members/"+contactId, Contact.class);
+		return new ResourceRepository<Contact>().getResource(serverUrl()
+				+ "android/members/" + contactId, Contact.class);
+	}
+
+	public boolean isLoggedIn() {
+		return new ResourceRepository<LoginStatus>().getResource(
+				serverUrl() + "user_sessions/status", LoginStatus.class)
+				.isLoggedIn();
+	}
+
+	public class LoginStatus {
+		@SerializedName("logged_in")
+		private boolean loggedIn;
+
+		public boolean isLoggedIn() {
+			return loggedIn;
+		}
+
+		public void setLoggedIn(boolean loggedIn) {
+			this.loggedIn = loggedIn;
+		}
 	}
 
 	private class ResourceRepository<T> {
