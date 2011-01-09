@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   acts_as_authentic
-  has_many :profiles
+  has_many :profiles, :dependent => :destroy
 
   scope :contact, where(:role => Role::CONTACT)
   scope :admin, where(:role => Role::ADMIN)

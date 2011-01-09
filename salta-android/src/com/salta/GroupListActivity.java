@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.salta.core.Group;
@@ -37,7 +38,9 @@ public class GroupListActivity extends SaltaBaseListActivity {
 			}
 		};
 		setListAdapter(groupListAdapter);
-		getListView().setOnItemClickListener(new OnItemClickListener() {
+		ListView listView = getListView();
+		listView.setFastScrollEnabled(true);
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(getApplicationContext(),

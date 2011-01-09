@@ -1,6 +1,6 @@
 class Profile < ActiveRecord::Base
   belongs_to :user
-  has_many :memberships, :foreign_key => 'member_id'
+  has_many :memberships, :foreign_key => 'member_id', :dependent => :destroy
   has_many :groups, :through => :memberships
   validates_presence_of :first_name, :last_name, :email, :phone
   validates_format_of :phone, :with => /\d+/

@@ -10,7 +10,7 @@ class AndroidController < ApplicationController
 
   def members
     group = current_user.groups.find(params[:group_id]).first
-    render :json => group.members.to_json(:only => MEMBER_FIELDS)
+    render :json => group.members.sort {|one, other| one.first_name <=> other.first_name}.to_json(:only => MEMBER_FIELDS)
   end
 
   def member

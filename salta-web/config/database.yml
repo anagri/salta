@@ -3,7 +3,7 @@ mysql_default: &mysql_default
   encoding: utf8
   username: root
   host: localhost
-  password: p@ssw0rd
+  password: passw0rd
   socket: /tmp/mysql.sock
   pool: 5
   timeout: 5000
@@ -14,7 +14,7 @@ development:
 
 test:
   <<: *mysql_default
-  database: salta_development
+  database: salta_test
 
 production:
   <<: *mysql_default
