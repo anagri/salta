@@ -50,9 +50,9 @@ public class SaltaClient {
 		return httpClient.execute(request, localContext);
 	}
 
-	public void login(String email, String password) {
+	public void login(String username, String password) {
 		HttpPost httpRequest = new HttpPost(SERVER_URL
-				+ "user_sessions.json?user_session[email]=" + email
+				+ "user_sessions.json?user_session[username]=" + username
 				+ "&user_session[password]=" + password);
 		try {
 			HttpResponse response = httpClient.execute(httpRequest,
@@ -78,7 +78,7 @@ public class SaltaClient {
 	public List<Contact> contacts(int groupId) {
 		List<Contact> contacts = new ResourceRepository<Contact>()
 				.getResources("contact", SERVER_URL + "android/groups/"
-						+ groupId + "/contacts", Contact.class);
+						+ groupId + "/members", Contact.class);
 		return contacts;
 	}
 
@@ -90,8 +90,9 @@ public class SaltaClient {
 				HttpResponse response = httpClient.execute(request,
 						localContext);
 				HttpEntity responseEntity = response.getEntity();
-				String finalJsonString = parseResponse(responseEntity);
-				JSONArray jsonArray = new JSONArray(finalJsonString);
+				String json = parseResponse(responseEntity);
+				Log.d("SaltaClient", json);
+				JSONArray jsonArray = new JSONArray(json);
 				List<T> resources = new ArrayList<T>();
 				for (int i = 0; i < jsonArray.length(); i++) {
 					String groupJsonString = jsonArray.getJSONObject(i)

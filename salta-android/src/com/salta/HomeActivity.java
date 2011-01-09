@@ -27,16 +27,16 @@ public class HomeActivity extends Activity {
 	}
 
 	public void login(View view) {
-		String email = ((TextView) findViewById(R.id.emailInput)).getText()
+		String username = ((TextView) findViewById(R.id.usernameInput)).getText()
 				.toString();
 		String password = ((TextView) findViewById(R.id.passwordInput))
 				.getText().toString();
 		getPreferences(MODE_PRIVATE).edit()
-				.putString(SaltaPreference.USER_EMAIL, email)
+				.putString(SaltaPreference.USERNAME, username)
 				.putString(SaltaPreference.PASSWORD, password).commit();
 		SaltaClient client = SaltaClient.client();
 		try {
-			client.login(email, password);
+			client.login(username, password);
 			startActivity(new Intent(this, GroupListActivity.class));
 		} catch (LoginException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

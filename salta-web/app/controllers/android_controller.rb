@@ -9,7 +9,7 @@ class AndroidController < ApplicationController
   end
 
   def members
-    group = current_user.groups.find(params[:group_id])
+    group = current_user.groups.find(params[:group_id]).first
     render :json => group.members.to_json(:only => MEMBER_FIELDS)
   end
 end

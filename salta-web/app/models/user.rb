@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def contact?
     role == Role::CONTACT
   end
+
+  def groups
+    profiles.collect{|profile| profile.groups}.flatten
+  end
 end

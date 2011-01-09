@@ -8,16 +8,14 @@
 		android:layout_marginTop="20dip"></TextView>
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_below="@+id/bannerText"
-		android:layout_marginLeft="30dip" android:text="Email" android:id="@+id/emailLabel"
-		android:layout_marginTop="10dip"></TextView>
-	<EditText android:layout_height="wrap_content" android:id="@+id/emailInput"
-		android:layout_below="@+id/emailLabel" android:layout_width="fill_parent"
+		android:layout_marginLeft="30dip" android:layout_marginTop="10dip" android:text="Username" android:id="@+id/usernameLabel"></TextView>
+	<EditText android:layout_height="wrap_content" android:layout_width="fill_parent"
 		android:layout_marginLeft="30dip" android:layout_marginRight="30dip"
-		android:layout_marginTop="10dip"></EditText>
+		android:layout_marginTop="10dip" android:id="@+id/usernameInput" android:layout_below="@+id/usernameLabel"></EditText>
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/passwordLabel"
-		android:layout_below="@+id/emailInput" android:text="Password"
-		android:layout_marginLeft="30dip" android:layout_marginTop="10dip"></TextView>
+		android:text="Password"
+		android:layout_marginLeft="30dip" android:layout_marginTop="10dip" android:layout_below="@+id/usernameInput"></TextView>
 	<EditText android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true" android:id="@+id/passwordInput"
 		android:password="true" android:layout_below="@+id/passwordLabel"
