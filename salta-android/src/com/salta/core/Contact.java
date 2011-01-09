@@ -8,6 +8,7 @@ public class Contact {
 	private String firstName;
 	@SerializedName("last_name")
 	private String lastName;
+	private String website;
 	private String phone;
 	private String email;
 
@@ -16,13 +17,14 @@ public class Contact {
 	}
 
 	public Contact(Integer id, String firstName, String lastName, String phone,
-			String email) {
+			String email, String website) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
 		this.email = email;
+		this.website = website;
 	}
 
 	public Integer getId() {
@@ -69,6 +71,14 @@ public class Contact {
 	public String toString() {
 		return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", phone=" + phone + ", email=" + email + "]";
+	}
+
+	public String name() {
+		return firstName + " " + lastName;
+	}
+
+	public String getWebsite() {
+		return website;
 	}
 
 }

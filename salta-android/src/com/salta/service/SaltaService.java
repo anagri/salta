@@ -96,26 +96,25 @@ public class SaltaService extends Service {
 
 	public List<Group> groups() {
 		List<Group> groups = new ResourceRepository<Group>().getResources(
-				"group", serverUrl() + "android/groups", Group.class);
+				serverUrl() + "android/groups", Group.class);
 		return groups;
 	}
 
 	public List<Contact> contacts(int groupId) {
 		List<Contact> contacts = new ResourceRepository<Contact>()
-				.getResources("contact", serverUrl() + "android/groups/"
+				.getResources(serverUrl() + "android/groups/"
 						+ groupId + "/members", Contact.class);
 		return contacts;
 	}
 
+	public Contact contact(int contactId) {
+		return new ResourceRepository<Contact>().getResource(serverUrl()+"android/members/"+contactId, Contact.class);
+	}
+
 	private class ResourceRepository<T> {
-		public List<T> getResources(String resourceName, String url,
-				Class resourceClass) {
+		public List<T> getResources(String url, Class resourceClass) {
 			try {
-				HttpGet request = new HttpGet(url);
-				HttpResponse response = httpClient.execute(request,
-						localContext);
-				HttpEntity responseEntity = response.getEntity();
-				String json = parseResponse(responseEntity);
+				String json = getResponseJson(url);
 				Log.d("SaltaClient", json);
 				JSONArray jsonArray = new JSONArray(json);
 				List<T> resources = new ArrayList<T>();
@@ -126,11 +125,26 @@ public class SaltaService extends Service {
 							resourceClass));
 				}
 				return resources;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		public T getResource(String url, Class resourceClass) {
+			return (T) new Gson().fromJson(getResponseJson(url), resourceClass);
+		}
+
+		private String getResponseJson(String url) {
+			try {
+				HttpGet request = new HttpGet(url);
+				HttpResponse response = httpClient.execute(request,
+						localContext);
+				HttpEntity responseEntity = response.getEntity();
+				return parseResponse(responseEntity);
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			return null;

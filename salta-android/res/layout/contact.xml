@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/contactLayout" android:orientation="vertical">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Name"
+		android:layout_marginTop="10dip" android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/contactNameView"
+		android:layout_height="wrap_content" android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Email"
+		android:layout_marginTop="10dip" android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/contactEmailView"
+		android:layout_height="wrap_content" android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Phone"
+		android:layout_marginTop="10dip" android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/contactPhoneView"
+		android:layout_height="wrap_content" android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Website"
+		android:layout_marginTop="10dip" android:layout_marginBottom="10dip"></TextView>
+	<TextView android:layout_width="fill_parent" android:id="@+id/contactWebsiteView"
+		android:layout_height="wrap_content" android:layout_marginTop="10dip"
+		android:layout_marginBottom="10dip"></TextView>
+</LinearLayout>

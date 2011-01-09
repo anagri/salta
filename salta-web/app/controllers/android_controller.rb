@@ -12,4 +12,9 @@ class AndroidController < ApplicationController
     group = current_user.groups.find(params[:group_id]).first
     render :json => group.members.to_json(:only => MEMBER_FIELDS)
   end
+
+  def member
+    profile = Profile.find(params[:member_id])
+    render :json => profile.to_json(:only => MEMBER_FIELDS) 
+  end
 end

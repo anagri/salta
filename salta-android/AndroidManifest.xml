@@ -11,6 +11,7 @@
 		<activity android:name="SaltaPreferenceActivity" android:label="@string/preference" />
 		<activity android:name="GroupListActivity" android:label="Subscribed Groups" />
 		<activity android:name="ContactListActivity" android:label="Subscribed Members" />
+		<activity android:name="ContactActivity" android:label="Member Information" />
 	<service android:name=".service.SaltaService" android:enabled="true"></service>
 </application>
 	<uses-permission android:name="android.permission.INTERNET"/>

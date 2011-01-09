@@ -7,7 +7,7 @@ authorization do
   role :authenticated_user do
     has_permission_on :user_sessions, :to => [:destroy]
     has_permission_on :dashboard, :to => [:index]
-    has_permission_on :android, :to => [:members, :groups]
+    has_permission_on :android, :to => [:members, :groups, :member]
     has_permission_on :profiles do
       to :new, :create
       if_attribute :user => is {user}

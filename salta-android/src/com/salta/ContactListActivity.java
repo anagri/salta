@@ -3,14 +3,17 @@ package com.salta;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.salta.core.Contact;
 import com.salta.service.ServiceReference;
@@ -43,5 +46,14 @@ public class ContactListActivity extends SaltaBaseListActivity {
 			}
 		};
 		setListAdapter(contactListAdapter);
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(getApplicationContext(),
+						ContactActivity.class);
+				intent.putExtra("contact_id", contacts.get(position).getId());
+				startActivity(intent);
+			}
+		});
 	}
 }

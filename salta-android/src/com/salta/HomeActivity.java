@@ -19,11 +19,6 @@ public class HomeActivity extends SaltaBaseActivity {
 		setContentView(R.layout.main);
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 	public void login(View view) {
 		String username = ((TextView) findViewById(R.id.usernameInput)).getText()
 				.toString();
@@ -33,6 +28,7 @@ public class HomeActivity extends SaltaBaseActivity {
 			service().login(username, password);
 			Log.d("HomeActivity", "Login successfull");
 			startActivity(new Intent(this, GroupListActivity.class));
+			finish();
 		} catch (LoginException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
