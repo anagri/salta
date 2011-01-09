@@ -1,8 +1,8 @@
 package com.salta;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,10 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.salta.core.LoginException;
-import com.salta.web.SaltaClient;
 
-public class HomeActivity extends Activity {
-
+public class HomeActivity extends SaltaBaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,12 +29,9 @@ public class HomeActivity extends Activity {
 				.toString();
 		String password = ((TextView) findViewById(R.id.passwordInput))
 				.getText().toString();
-		getPreferences(MODE_PRIVATE).edit()
-				.putString(SaltaPreference.USERNAME, username)
-				.putString(SaltaPreference.PASSWORD, password).commit();
-		SaltaClient client = SaltaClient.client();
 		try {
-			client.login(username, password);
+			service().login(username, password);
+			Log.d("HomeActivity", "Login successfull");
 			startActivity(new Intent(this, GroupListActivity.class));
 		} catch (LoginException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

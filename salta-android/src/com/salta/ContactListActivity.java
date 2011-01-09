@@ -2,7 +2,6 @@ package com.salta;
 
 import java.util.List;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.salta.core.Contact;
-import com.salta.web.SaltaClient;
+import com.salta.service.ServiceReference;
 
-public class ContactListActivity extends ListActivity {
+public class ContactListActivity extends SaltaBaseListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		int groupId = getIntent().getExtras().getInt("group_id");
 		Log.d("ContactList", "Displaying contacts for " + groupId);
-		final List<Contact> contacts = SaltaClient.client().contacts(groupId);
+		final List<Contact> contacts = ServiceReference.service().contacts(
+				groupId);
 		ArrayAdapter<Contact> contactListAdapter = new ArrayAdapter<Contact>(
 				this, R.layout.contact_item, contacts) {
 			@Override

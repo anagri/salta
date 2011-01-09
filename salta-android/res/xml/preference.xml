@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<EditTextPreference android:key="@+id/url"
-		android:title="Server Url" android:summary="Set the remote server address" />
+	<EditTextPreference android:title="Server Url" android:summary="Set the remote server address" android:key="serverUrl"/>
 </PreferenceScreen>

@@ -1,4 +1,4 @@
-package com.salta.web;
+package com.salta.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -21,45 +20,71 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.Service;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Binder;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.salta.SaltaPreference;
 import com.salta.core.Contact;
 import com.salta.core.Group;
 import com.salta.core.LoginException;
 
-public class SaltaClient {
-	private static final String SERVER_URL = "http://10.12.6.36:3000/";
-	private static SaltaClient instance = new SaltaClient();
+public class SaltaService extends Service {
+	private SaltaServiceBinder binder;
 	private DefaultHttpClient httpClient;
 	private HttpContext localContext;
 
-	private SaltaClient() {
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		binder = new SaltaServiceBinder();
 		httpClient = new DefaultHttpClient();
 		CookieStore cookieStore = new BasicCookieStore();
 		localContext = new BasicHttpContext();
 		localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 	}
 
-	public static SaltaClient client() {
-		return instance;
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		return START_REDELIVER_INTENT;
 	}
 
-	public final HttpResponse execute(HttpUriRequest request)
-			throws IOException, ClientProtocolException {
-		return httpClient.execute(request, localContext);
+	@Override
+	public IBinder onBind(Intent intent) {
+		return binder;
+	}
+
+	private String serverUrl() {
+		return getPreferences().getString(SaltaPreference.SERVER_URL, null);
+	}
+
+	private SharedPreferences getPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(this);
+	}
+
+	public class SaltaServiceBinder extends Binder {
+		public SaltaService service() {
+			return SaltaService.this;
+		}
 	}
 
 	public void login(String username, String password) {
-		HttpPost httpRequest = new HttpPost(SERVER_URL
+		String loginUrl = serverUrl()
 				+ "user_sessions.json?user_session[username]=" + username
-				+ "&user_session[password]=" + password);
+				+ "&user_session[password]=" + password;
+		Log.d("SaltaService", loginUrl);
+		HttpPost httpRequest = new HttpPost(loginUrl);
 		try {
 			HttpResponse response = httpClient.execute(httpRequest,
 					localContext);
 			String json = parseResponse(response.getEntity());
 			Log.d("SaltaClient", json);
-			if(response.getStatusLine().getStatusCode() == 422) {
+			if (response.getStatusLine().getStatusCode() == 422) {
 				throw new Gson().fromJson(json, LoginException.class);
 			}
 		} catch (ClientProtocolException e1) {
@@ -70,14 +95,14 @@ public class SaltaClient {
 	}
 
 	public List<Group> groups() {
-		List<Group> groups = new ResourceRepository<Group>().getResources("group", SERVER_URL
-				+ "android/groups", Group.class);
+		List<Group> groups = new ResourceRepository<Group>().getResources(
+				"group", serverUrl() + "android/groups", Group.class);
 		return groups;
 	}
 
 	public List<Contact> contacts(int groupId) {
 		List<Contact> contacts = new ResourceRepository<Contact>()
-				.getResources("contact", SERVER_URL + "android/groups/"
+				.getResources("contact", serverUrl() + "android/groups/"
 						+ groupId + "/members", Contact.class);
 		return contacts;
 	}
@@ -112,8 +137,7 @@ public class SaltaClient {
 		}
 	}
 
-	private String parseResponse(HttpEntity responseEntity)
-			throws IOException {
+	private String parseResponse(HttpEntity responseEntity) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(responseEntity.getContent()));
 		StringBuilder json = new StringBuilder();
